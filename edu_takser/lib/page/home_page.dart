@@ -3,17 +3,17 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 void main(List<String> args) {
-  runApp(const MyApp());
+  runApp(const HomePage());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
