@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 
-void main(List<String> args) {
-  runApp(const HomePage());
-}
+// void main(List<String> args) {
+//   runApp(const HomePage());
+// }
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,10 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter App',
-      home: Container(
+    return Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -32,15 +30,23 @@ class _HomePageState extends State<HomePage> {
           appBar: getAppBar(),
           body: Center(
             child: Container(
-              child: Text(
-                "This is home page",
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white)
-                ),
+              child: Column(
+                children: [
+                  Text(
+                    "This is home page",
+                    style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white)
+                    ),
+                  ElevatedButton(onPressed: (){
+                    context.push("/routine");
+                  }, 
+                  child: Text("Go to Routine Page")
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      )
-    );
+      );
   }
 
   AppBar getAppBar() {
