@@ -1,3 +1,4 @@
+import 'package:edu_tasker_app/constants/colors.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -8,7 +9,8 @@ void main(List<String> args) {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: "Flutter App",
-    home: RoutinePage(), //error The error you’re encountering is due to the absence of MaterialLocalization
+    home:
+        RoutinePage(), //error The error you’re encountering is due to the absence of MaterialLocalization
     //Floating Button under MaterialApp
   ));
 }
@@ -53,8 +55,8 @@ class _RoutinePageState extends State<RoutinePage> {
 
   void addRoutine(String name, String description, int count, String unit) {
     setState(() {
-    routines.add(RoutineModel(
-        name: name, description: description, count: count, unit: unit));
+      routines.add(RoutineModel(
+          name: name, description: description, count: count, unit: unit));
     });
   }
 
@@ -152,145 +154,146 @@ class _RoutinePageState extends State<RoutinePage> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-        Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 55, 29, 100),
-              Color.fromARGB(255, 20, 47, 114)
-            ],
-          )),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: getAppBar(),
-            body: Column(
-              children: [
-                // Text("This is home page",style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white)),
-                SearchBox(),
-    
-                // routine section
-                SizedBox(height: 32),
-                Container(
-                  margin: EdgeInsets.only(right: 28, left: 28),
-                  // color: Colors.red,
-                  height: 450,
-                  child: getListViewRoutine(),
-                ),
-              ],
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color.fromARGB(255, 55, 29, 100),
+          Color.fromARGB(255, 20, 47, 114)
+        ],
+      )),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: getAppBar(),
+        body: Column(
+          children: [
+            // Text("This is home page",style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white)),
+            SearchBox(),
+
+            // routine section
+            SizedBox(height: 32),
+            Container(
+              margin: EdgeInsets.only(right: 28, left: 28),
+              // color: Colors.red,
+              height: 450,
+              child: getListViewRoutine(),
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  showAddRoutineDialog(
-                      context); // เรียกฟังก์ชันเพื่อแสดง dialog เพิ่ม Routine
-                });
-              },
-              child: Icon(Icons.add),
-              backgroundColor: Colors.greenAccent,
-            ),
-          ),
-        );
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              showAddRoutineDialog(
+                  context); // เรียกฟังก์ชันเพื่อแสดง dialog เพิ่ม Routine
+            });
+          },
+          child: Icon(Icons.note_add, color: Colors.white, size: 36,),
+          shape: CircleBorder(),
+          backgroundColor: Colors.greenAccent,
+        ),
+      ),
+    );
   }
 
   ListView getListViewRoutine() {
     return ListView.separated(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: routines.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        tileColor: Colors.white,
-                        //subtitle: Text(routines[index].description),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            //Remove counter Button
-                            ElevatedButton(
-                              onPressed: () {
-                                // code when button is pressed
-                                decreaseCount(index);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.redAccent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: EdgeInsets
-                                    .zero, // เปลี่ยนเป็น EdgeInsets.zero เพื่อไม่ให้มีพื้นที่ว่างรอบปุ่ม
-                                minimumSize:
-                                    Size(48, 48), // กำหนดขนาดปุ่มเป็น 48x48
-                              ),
-                              child: Icon(
-                                Icons.remove,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                            ),
-                            // Routine Infomation Section
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      routines[index].name,
-                                      style: TextStyle(fontSize: 14),
-                                    ), //Show Name of Routine
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                        '${routines[index].count.toString()}/${routines[index].unit}',
-                                        style: TextStyle(
-                                            fontSize:
-                                                14)), //Show Counting and unit of Routine
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                Text(routines[index].description,
-                                    style: TextStyle(fontSize: 14)),
-                              ],
-                            ),
-                            //Add Counting Button
-                            ElevatedButton(
-                              onPressed: () {
-                                // code when button is pressed
-                                increaseCount(index);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.greenAccent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: EdgeInsets
-                                    .zero, // เปลี่ยนเป็น EdgeInsets.zero เพื่อไม่ให้มีพื้นที่ว่างรอบปุ่ม
-                                minimumSize:
-                                    Size(48, 48), // กำหนดขนาดปุ่มเป็น 48x48
-                              ),
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                            ),
-                          ],
+        padding: const EdgeInsets.all(8),
+        itemCount: routines.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            textColor: Colors.white,
+            tileColor: primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius:
+                  BorderRadius.circular(20), // กำหนด border radius เป็น 20
+            ),
+            //subtitle: Text(routines[index].description),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                //Remove counter Button
+                ElevatedButton(
+                  onPressed: () {
+                    // code when button is pressed
+                    decreaseCount(index);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets
+                        .zero, // เปลี่ยนเป็น EdgeInsets.zero เพื่อไม่ให้มีพื้นที่ว่างรอบปุ่ม
+                    minimumSize: Size(48, 48), // กำหนดขนาดปุ่มเป็น 48x48
+                  ),
+                  child: Icon(
+                    Icons.remove,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+                // Routine Infomation Section
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          routines[index].name,
+                          style: TextStyle(fontSize: 14),
+                        ), //Show Name of Routine
+                        SizedBox(
+                          width: 8,
                         ),
-                        trailing: Icon(Icons.delete, color: Colors.redAccent),
-                        onTap: () {
-                          showDeleteConfirmationDialog(context, index);
-                        },
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const SizedBox(
-                          height: 24,
-                        ));
+                        Text(
+                            '${routines[index].count.toString()}/${routines[index].unit}',
+                            style: TextStyle(
+                                fontSize:
+                                    14)), //Show Counting and unit of Routine
+                      ],
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Text(routines[index].description,
+                        style: TextStyle(fontSize: 14)),
+                  ],
+                ),
+                //Add Counting Button
+                ElevatedButton(
+                  onPressed: () {
+                    // code when button is pressed
+                    increaseCount(index);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.greenAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets
+                        .zero, // เปลี่ยนเป็น EdgeInsets.zero เพื่อไม่ให้มีพื้นที่ว่างรอบปุ่ม
+                    minimumSize: Size(48, 48), // กำหนดขนาดปุ่มเป็น 48x48
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+              ],
+            ),
+            trailing: Icon(Icons.delete, color: Colors.redAccent),
+            onTap: () {
+              showDeleteConfirmationDialog(context, index);
+            },
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) => const SizedBox(
+              height: 24,
+            ));
   }
 
   AppBar getAppBar() {
@@ -298,9 +301,7 @@ class _RoutinePageState extends State<RoutinePage> {
       actions: [
         IconButton(
             icon: Icon(Icons.settings, color: Colors.white, size: 40.0),
-            onPressed: () {
-            }
-        ),
+            onPressed: () {}),
       ],
       centerTitle: true,
       title: Center(
@@ -310,8 +311,11 @@ class _RoutinePageState extends State<RoutinePage> {
         ),
       ),
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.white,),
-        onPressed: (){
+        icon: const Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ),
+        onPressed: () {
           Navigator.pop(context);
         },
       ),
