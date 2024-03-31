@@ -17,9 +17,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final GoRouter _router = GoRouter(
     routes: [
+      //TODO #1 Start ฺPage
       GoRoute(
         path: "/",
-        builder: (context, state) => const HomePage(),
+        builder: (context, state) => const RoutinePage(), //HomePage()
       ),
       GoRoute(
         path: "/routine",
