@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
       //TODO #1 Start ฺPage
       GoRoute(
         path: "/",
-        builder: (context, state) => const RoutinePage(), //HomePage()
+        builder: (context, state) => const HomePage(), //HomePage()
       ),
       GoRoute(
         path: "/routine",
