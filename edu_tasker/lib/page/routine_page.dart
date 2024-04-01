@@ -1,4 +1,4 @@
-import 'package:edu_tasker_app/constants/colors.dart';
+import 'package:edu_tasker_app/constants/materialDesign.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
