@@ -200,7 +200,8 @@ class _MyAppState extends State<MyApp> {
                           onChanged: (value) => description = value,
                           decoration:
                               InputDecoration(labelText: 'รายละเอียด Task'),
-                        ),
+                        maxLines: 2,
+                        minLines: 1,),
                         SizedBox(
                           height: 10,
                         ),
