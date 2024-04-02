@@ -99,13 +99,13 @@ class _MyAppState extends State<MyApp> {
 
   FloatingActionButton getFloatingButton() {
     return FloatingActionButton(
-      onPressed: () => {showAddRoutineDialog(context)},
-      child: Icon(
-        Icons.note_add,
-        color: Colors.white,size: 36,
-        
-      ),backgroundColor: Colors.greenAccent
-    );
+        onPressed: () => {showAddRoutineDialog(context)},
+        child: Icon(
+          Icons.note_add,
+          color: Colors.white,
+          size: 36,
+        ),
+        backgroundColor: Colors.greenAccent);
   }
 
   Container getBody() {
@@ -115,10 +115,13 @@ class _MyAppState extends State<MyApp> {
         itemCount: Task_List.length,
         itemBuilder: (context, index) {
           return ListTile(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             textColor: Colors.white,
             tileColor: Color.fromARGB(255, 24, 28, 75),
-            title: Text(Task_List[index].taskname,),
+            title: Text(
+              Task_List[index].taskname,
+            ),
             subtitle: Task_List[index].more_detail == false
                 ? Text(Task_List[index].priority)
                 : Column(
@@ -129,8 +132,11 @@ class _MyAppState extends State<MyApp> {
                   ),
             onTap: () => {tapShowDetail(index)},
             trailing: IconButton(
-              icon: Icon(Icons.delete,color: Colors.red,),
-              onPressed: () => {remove_Task(index)},
+              icon: Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
+              onPressed: () => {showDeleteConfirmationDialog(context, index)},
             ),
           );
         },
@@ -166,50 +172,153 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> showAddRoutineDialog(BuildContext context) async {
     String taskname = '';
-    String priority = "";
+    String priority = "Imporntant & urgent";
     DateTime date = DateTime.now();
     String description = '';
+    List<String> priority_list = [
+      "Imporntant & urgent",
+      "not Imporntant & urgent",
+      "Imporntant & not urgent",
+      "not Imporntant & not urgent"
+    ];
 
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // ไม่ให้ปิด dialog โดยการแตะภายนอก
       builder: (BuildContext context) {
+        return StatefulBuilder(
+            builder: (context, setStateSB) => AlertDialog(
+                  title: Text('เพิ่ม task'),
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        TextField(
+                          onChanged: (value) => taskname = value,
+                          decoration: InputDecoration(labelText: 'ชื่อ Task'),
+                        ),
+                        TextField(
+                          onChanged: (value) => description = value,
+                          decoration:
+                              InputDecoration(labelText: 'รายละเอียด Task'),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Priority : $priority"),
+                            TextButton(
+                                child: Text(priority_list[0]),
+                                onPressed: () {
+                                  setStateSB(
+                                    () {
+                                      priority = priority_list[0];
+                                    },
+                                  );
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.redAccent),
+                                )),
+                            TextButton(
+                                child: Text(priority_list[1]),
+                                onPressed: () {
+                                  setStateSB(
+                                    () {
+                                      priority = priority_list[1];
+                                    },
+                                  );
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.yellowAccent),
+                                )),
+                            TextButton(
+                                child: Text(
+                                  priority_list[2],
+                                ),
+                                onPressed: () {
+                                  setStateSB(
+                                    () {
+                                      priority = priority_list[2];
+                                    },
+                                  );
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.amberAccent),
+                                )),
+                            TextButton(
+                                child: Text(priority_list[3]),
+                                onPressed: () {
+                                  setStateSB(
+                                    () {
+                                      priority = priority_list[3];
+                                    },
+                                  );
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.greenAccent),
+                                )),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('ตกลง'),
+                      onPressed: () {
+                        // เพิ่ม Routine โดยเรียกฟังก์ชันที่กำหนดไว้ที่บรรทัดที่ 3 โดยส่งพารามิเตอร์ข้อมูลของ Routine
+                        add_Task(priority, date, taskname, description);
+                        Navigator.of(context).pop(); // ปิด dialog
+                      },
+                    ),
+                    TextButton(
+                      child: Text('ยกเลิก'),
+                      onPressed: () {
+                        // เพิ่ม Routine โดยเรียกฟังก์ชันที่กำหนดไว้ที่บรรทัดที่ 3 โดยส่งพารามิเตอร์ข้อมูลของ Routine
+                        Navigator.of(context).pop(); // ปิด dialog
+                      },
+                    )
+                  ],
+                ));
+      },
+    );
+  }
+
+  Future<void> showDeleteConfirmationDialog(
+      BuildContext context, int index) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // ไม่ให้ปิด dialog โดยการแตะภายนอก
+      builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('เพิ่ม Routine'),
+          title: Text('คุณแน่ใจหรือไม่?'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                TextField(
-                  onChanged: (value) => taskname = value,
-                  decoration: InputDecoration(labelText: 'ชื่อ Task'),
-                ),
-                TextField(
-                  onChanged: (value) => priority = value,
-                  decoration: InputDecoration(labelText: 'Priority'),
-                ),
-                TextField(
-                  onChanged: (value) => description = value,
-                  decoration: InputDecoration(labelText: 'รายละเอียด Task'),
-                ),
+                Text('คุณต้องการลบ Task นี้หรือไม่?'),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('ตกลง'),
+              child: Text('ยกเลิก'),
               onPressed: () {
-                // เพิ่ม Routine โดยเรียกฟังก์ชันที่กำหนดไว้ที่บรรทัดที่ 3 โดยส่งพารามิเตอร์ข้อมูลของ Routine
-                add_Task(priority, date, taskname, description);
                 Navigator.of(context).pop(); // ปิด dialog
               },
             ),
             TextButton(
-              child: Text('ยกเลิก'),
+              child: Text('ตกลง'),
               onPressed: () {
-                // เพิ่ม Routine โดยเรียกฟังก์ชันที่กำหนดไว้ที่บรรทัดที่ 3 โดยส่งพารามิเตอร์ข้อมูลของ Routine
+                remove_Task(
+                    index); // เรียกฟังก์ชัน deleteRoutine เมื่อผู้ใช้กดตกลง
                 Navigator.of(context).pop(); // ปิด dialog
               },
-            )
+            ),
           ],
         );
       },
