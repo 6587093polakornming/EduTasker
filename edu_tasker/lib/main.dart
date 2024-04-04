@@ -2,8 +2,12 @@ import 'package:edu_tasker_app/page/home_page.dart';
 import 'package:edu_tasker_app/page/routine_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  var box = await Hive.openBox('EDUTASKER');
+
   runApp(const MyApp());
 }
 

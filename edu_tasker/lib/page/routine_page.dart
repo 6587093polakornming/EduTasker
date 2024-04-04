@@ -1,9 +1,11 @@
+// Please rename your function
 import 'package:edu_tasker_app/constants/materialDesign.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main(List<String> args) {
   runApp(MaterialApp(
@@ -24,40 +26,56 @@ class RoutinePage extends StatefulWidget {
 
 class _RoutinePageState extends State<RoutinePage> {
   // get routine model
-  List<RoutineModel> routines = [];
+  final _EDUTASKER = Hive.box('EDUTASKER');
+  RoutineDatabase routineDB = RoutineDatabase();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    routines = RoutineModel.getRoutines();
+    if (_EDUTASKER.get("ROUTINE") == null) {
+      routineDB.createInitialRoutineData();
+      print("${routineDB.routines}");
+    } else {
+      // there already exists data
+      routineDB.loadRoutineData();
+      print("${routineDB.routines}");
+    }
+
+    super.initState();
   }
+
 
   void increaseCount(int index) {
     setState(() {
-      routines[index].count++;
+      routineDB.routines[index].count = routineDB.routines[index].count + 1;
+      print('${routineDB.routines[index].count}');
     });
+    routineDB.updateRoutineDataBase();
   }
 
   void decreaseCount(int index) {
     setState(() {
-      if (routines[index].count > 0) {
-        routines[index].count--;
+      if (routineDB.routines[index].count > 0) {
+        routineDB.routines[index].count = routineDB.routines[index].count - 1;
       }
     });
+    routineDB.updateRoutineDataBase();
   }
 
   void deleteRoutine(int index) {
     setState(() {
-      routines.removeAt(index);
+      routineDB.routines.removeAt(index);
     });
+    routineDB.updateRoutineDataBase();
   }
 
   void addRoutine(String name, String description, int count, String unit) {
     setState(() {
-      routines.add(RoutineModel(
-          name: name, description: description, count: count, unit: unit));
+      routineDB.routines.add(RoutineModel(
+          userId:"test", name: name, description: description, count: count, unit: unit));
     });
+    routineDB.updateRoutineDataBase();
   }
 
   Future<void> showDeleteConfirmationDialog(
@@ -200,7 +218,7 @@ class _RoutinePageState extends State<RoutinePage> {
   ListView getListViewRoutine() {
     return ListView.separated(
         padding: const EdgeInsets.all(8),
-        itemCount: routines.length,
+        itemCount: routineDB.routines.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             textColor: Colors.white,
@@ -242,14 +260,14 @@ class _RoutinePageState extends State<RoutinePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          routines[index].name,
+                          routineDB.routines[index].name,
                           style: TextStyle(fontSize: 14),
                         ), //Show Name of Routine
                         SizedBox(
                           width: 8,
                         ),
                         Text(
-                            '${routines[index].count.toString()}/${routines[index].unit}',
+                            '${routineDB.routines[index].count.toString()}/${routineDB.routines[index].unit}',
                             style: TextStyle(
                                 fontSize:
                                     14)), //Show Counting and unit of Routine
@@ -258,7 +276,7 @@ class _RoutinePageState extends State<RoutinePage> {
                     SizedBox(
                       height: 6,
                     ),
-                    Text(routines[index].description,
+                    Text(routineDB.routines[index].description,
                         style: TextStyle(fontSize: 14)),
                   ],
                 ),

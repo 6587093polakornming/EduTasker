@@ -111,15 +111,20 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         width: 16,
                       ),
-                      getWidgetButtonHomePage(
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.update, size: 40.0, color: Colors.white,),
-                            SizedBox(height: 4,),
-                            Text('Routine', style: subtitle,)
-                          ],
-                        )
+                      GestureDetector(
+                        onTap: (){
+                          context.push("/routine");
+                        },
+                        child: getWidgetButtonHomePage(
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.update, size: 40.0, color: Colors.white,),
+                              SizedBox(height: 4,),
+                              Text('Routine', style: subtitle,)
+                            ],
+                          )
+                        ),
                       ),
                     ],
                   ),
