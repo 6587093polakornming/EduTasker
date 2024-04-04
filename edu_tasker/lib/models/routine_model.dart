@@ -1,8 +1,8 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:convert';
 import 'package:hive_flutter/hive_flutter.dart';
 part 'routine_model.g.dart'; // This is required for Hive TypeAdapter generation
 
-@HiveType(typeId: 0) // Specify a unique typeId for Hive
+@HiveType(typeId: 0, adapterName: "RoutineAdapter") // Specify a unique typeId for Hive
 class RoutineModel {
   @HiveField(0)
   String userId;
@@ -19,7 +19,7 @@ class RoutineModel {
 
 
   // Factory constructor for creating a new RoutineModel instance from a map
-  factory RoutineModel.fromJson(Map<dynamic, dynamic> json) => RoutineModel( //bug Map<String, dynamic>
+  factory RoutineModel.fromJson(Map<String, dynamic> json) => RoutineModel( //bug Map<String, dynamic>
         userId: json['userId'],
         name: json['name'],
         description: json['description'],
@@ -27,8 +27,9 @@ class RoutineModel {
         unit: json['unit'],
       );
 
+  
   // Method for converting a RoutineModel instance to a map
-  Map<dynamic, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'userId': userId,
         'name': name,
         'description': description,
@@ -40,27 +41,47 @@ class RoutineModel {
 }
 
 class RoutineDatabase {
-  List<RoutineModel> routines = [];
-
+  List<dynamic> routines = [];
   final _EDUTASKER = Hive.box('EDUTASKER');
-
   void createInitialRoutineData() {
     routines.add(RoutineModel(userId: "test",name: 'Exercise', description: '30 min', count: 1, unit: 'time'));
     routines.add(RoutineModel(userId: "test",name: 'Read Book', description: '1 chapter', count: 0, unit: 'time'));
     routines.add(RoutineModel(userId: "test",name: 'Exercise', description: '10 min', count: 2, unit: 'time'));
   }
 
+  String routineToJson(List<dynamic> routines) => json.encode(List<dynamic>.from(routines.map((routine) => routine.toJson())));
+
+  List<RoutineModel> routineFromJson(String str) => List<RoutineModel>.from(json.decode(str).map((x) => RoutineModel.fromJson(x)));
+
   void loadRoutineData() {
-  var routineData = _EDUTASKER.get("ROUTINE");
-  if (routineData != null) {
-    print(routineData);
-    routines = List<RoutineModel>.from(routineData.map((routine) => RoutineModel.fromJson(routine)));
-    }
+    //assign to List<dynamic> first
+    List<dynamic> routineData = _EDUTASKER.get("ROUTINE");
+    print('RunTime Routine Data ${routineData.runtimeType}');
+    print('Routine Data ${routineData}');
+    if (routineData != null) {
+      print(routines.runtimeType);
+      routines = routineData;
+      }
+    // String resultToJson = routineToJson(routines);
+    // print('resultTOJson ${resultToJson}');
+    // var resultJson = routineFromJson(resultToJson);
+    // print(resultJson.runtimeType);
+    // print('resultFROMJson ${resultJson}');
+
   }
 
   void updateRoutineDataBase() {
-    _EDUTASKER.put("ROUTINE", routines.map((routine) => routine.toJson()).toList());
+    // routines.map((routine) => routine.toJson()).toList();
+    // var update = routines.map((routine) => routine.toJson()).toList();
+    print('update ${routines.runtimeType}');
+    print(routines);
+    _EDUTASKER.put("ROUTINE", routines);
+    //_EDUTASKER.put("ROUTINE", routines.toList());
+    
   }
 
+  void resetRoutineDataBase(){
+    _EDUTASKER.delete("ROUTINE");
+  }
 
 }

@@ -6,7 +6,7 @@ part of 'routine_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class RoutineModelAdapter extends TypeAdapter<RoutineModel> {
+class RoutineAdapter extends TypeAdapter<RoutineModel> {
   @override
   final int typeId = 0;
 
@@ -47,7 +47,7 @@ class RoutineModelAdapter extends TypeAdapter<RoutineModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is RoutineModelAdapter &&
+      other is RoutineAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

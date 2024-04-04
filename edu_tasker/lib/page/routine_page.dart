@@ -7,15 +7,15 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-void main(List<String> args) {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: "Flutter App",
-    home:
-        RoutinePage(), //error The error you’re encountering is due to the absence of MaterialLocalization
-    //Floating Button under MaterialApp
-  ));
-}
+// void main(List<String> args) {
+//   runApp(MaterialApp(
+//     debugShowCheckedModeBanner: false,
+//     title: "Flutter App",
+//     home:
+//         RoutinePage(), //error The error you’re encountering is due to the absence of MaterialLocalization
+//     //Floating Button under MaterialApp
+//   ));
+// }
 
 class RoutinePage extends StatefulWidget {
   const RoutinePage({super.key});
@@ -33,13 +33,18 @@ class _RoutinePageState extends State<RoutinePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    //Dev tool Testing Reset Database !!!
+    //routineDB.resetRoutineDataBase();
+
     if (_EDUTASKER.get("ROUTINE") == null) {
       routineDB.createInitialRoutineData();
-      print("${routineDB.routines}");
+      routineDB.updateRoutineDataBase();
+      //print("${routineDB.routines}");
     } else {
       // there already exists data
       routineDB.loadRoutineData();
-      print("${routineDB.routines}");
+      //print("${routineDB.routines}");
     }
 
     super.initState();
@@ -303,9 +308,11 @@ class _RoutinePageState extends State<RoutinePage> {
                 ),
               ],
             ),
-            trailing: Icon(Icons.delete, color: Colors.redAccent),
+            trailing: GestureDetector(
+              child: Icon(Icons.delete, color: Colors.redAccent),
+              onTap: () => showDeleteConfirmationDialog(context, index),
+              ),
             onTap: () {
-              showDeleteConfirmationDialog(context, index);
             },
           );
         },
