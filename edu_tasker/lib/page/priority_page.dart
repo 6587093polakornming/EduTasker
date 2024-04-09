@@ -1,36 +1,23 @@
-import 'package:edu_tasker_app/page/routine_page.dart';
+import '../models/priority_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-class Task {
-  String priority = "";
-  DateTime? date;
-  String taskname = "";
-  String description = "";
-  bool more_detail = false;
-
-  Task(
-      {required this.priority,
-      required this.date,
-      required this.taskname,
-      required this.description});
-}
 
 void main(List<String> args) {
   runApp(MaterialApp(
-      debugShowCheckedModeBanner: false, title: 'Flutter App', home: MyApp()));
+      debugShowCheckedModeBanner: false, title: 'Flutter App', home: PriorityPage()));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class PriorityPage extends StatefulWidget {
+  const PriorityPage({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<PriorityPage> createState() => _PriorityPageState();
 }
 
-class _MyAppState extends State<MyApp> {
-  // Global Var in _Myappstate
+class _PriorityPageState extends State<PriorityPage> {
+  // Global Var in _PriorityPagestate
   List<Task> Task_List = [];
 
   // init
@@ -99,7 +86,7 @@ class _MyAppState extends State<MyApp> {
 
   FloatingActionButton getFloatingButton() {
     return FloatingActionButton(
-        onPressed: () => {showAddRoutineDialog(context)},
+        onPressed: () => {showAddTaskDialog(context)},
         child: Icon(
           Icons.note_add,
           color: Colors.white,
@@ -170,7 +157,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  Future<void> showAddRoutineDialog(BuildContext context) async {
+  Future<void> showAddTaskDialog(BuildContext context) async {
     String taskname = '';
     String priority = "Imporntant & urgent";
     DateTime date = DateTime.now();

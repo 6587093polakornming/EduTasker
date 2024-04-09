@@ -1,23 +1,25 @@
-import 'package:edu_tasker_app/page/routine_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-
 void main(List<String> args) {
   runApp(MaterialApp(
-      debugShowCheckedModeBanner: false, title: 'Flutter App', home: MyApp()));
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter App',
+      home: SummaryPage()));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class SummaryPage extends StatefulWidget {
+  const SummaryPage({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<SummaryPage> createState() => _SummaryPageState();
 }
 
-class _MyAppState extends State<MyApp> {
-  // Global Var in _Myappstate
+class _SummaryPageState extends State<SummaryPage> {
+  // Global Var in _SummaryPagestate
+  int body_state = 0;
+  List<String> menu_option = ["All", "Priority", "Routine"];
 
   // init
   @override
@@ -43,9 +45,7 @@ class _MyAppState extends State<MyApp> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: getAppBar(),
-        body: Center(
-          child: getBody(),
-        ),
+        body: getBody(),
       ),
     );
   }
@@ -67,30 +67,46 @@ class _MyAppState extends State<MyApp> {
   }
 
   Column getBody() {
-    return Column();
+    return Column(
+      children: [
+        SizedBox(
+          height: 20,
+        ),
+        menu()
+      ],
+    );
   }
 
+  Container menu() {
+    return Container(
+      height: 40,
+      child: ListView.builder(
+          itemCount: menu_option.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                width: 100,
+                child: TextButton(
+                  onPressed: () => chaneSummary(index),
+                  child: Text(
+                    menu_option[index],
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                    Color.fromARGB(255, 24, 28, 75),
+                  )),
+                ));
+          }),
+    );
+    // return Text("text");
+  }
 
-
-}
-
-// Class -----------------------------------------
-class Priority {
-  final String name = "";
-  final String priority = "";
-
-}
-
-class Routine {
-  final String name = "";
-  final int count = 0;
-  final String unit = "";
-
-}
-
-class Weekly {
-  final String name = "" ;
-  final DateTime date = DateTime.now();
-
-
+  void chaneSummary(index) {
+    body_state = index;
+    print(body_state);
+    setState(() {});
+  }
 }
