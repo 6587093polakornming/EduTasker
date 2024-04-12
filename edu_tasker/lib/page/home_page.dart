@@ -1,5 +1,6 @@
 import 'package:edu_tasker_app/constants/materialDesign.dart';
 import 'package:edu_tasker_app/widgets/widgetHomePage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -112,7 +113,11 @@ class _HomePageState extends State<HomePage> {
                         width: 16,
                       ),
                       GestureDetector(
+<<<<<<< Updated upstream
                         onTap: (){
+=======
+                        onTap: () {
+>>>>>>> Stashed changes
                           context.push("/routine");
                         },
                         child: getWidgetButtonHomePage(
