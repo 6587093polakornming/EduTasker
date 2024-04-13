@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:edu_tasker_app/page/sumary_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,19 +17,17 @@ void main() async {
   // final appDocumentDirectory = await getApplicationDocumentsDirectory();
   // Hive.init(appDocumentDirectory.path);
   // print(appDocumentDirectory.path);
-  // Get the application's document directory    
-  var appDir = await getApplicationDocumentsDirectory(); 
+  // Get the application's document directory
+  var appDir = await getApplicationDocumentsDirectory();
 // Get the chosen sub-directory for Hive files
   await Hive.initFlutter();
 
   //register adapter
-  
+
   Hive.registerAdapter(PriorityAdapter());
   Hive.registerAdapter(RoutineAdapter());
   // Hive.deleteBoxFromDisk("EDUTASKER");
   var box = await Hive.openBox('EDUTASKER');
-
-
 
   runApp(const MyApp());
 }
@@ -52,12 +51,17 @@ class _MyAppState extends State<MyApp> {
         path: "/routine",
         builder: (context, state) => const RoutinePage(),
       ),
-      GoRoute(path: "/priority",
-      builder: (context, state) => const PriorityPage(),)
+      GoRoute(
+        path: "/priority",
+        builder: (context, state) => const PriorityPage(),
+      ),
 
+      GoRoute(
+        path: "/summary",
+        builder: (context, state) => const SummaryPage(),
+      )
     ],
   );
-
 
   @override
   Widget build(BuildContext context) {
@@ -72,4 +76,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

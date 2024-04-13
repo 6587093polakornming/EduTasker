@@ -180,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         width: 16,
                       ),
-                      getWidgetButtonHomePage(Column(
+                      GestureDetector(onTap: (){context.push('/summary');} ,child: getWidgetButtonHomePage(Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
@@ -196,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                             style: subtitle,
                           )
                         ],
-                      )),
+                      )),),
                     ],
                   ),
                 ],
