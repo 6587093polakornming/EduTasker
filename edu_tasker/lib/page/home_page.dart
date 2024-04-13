@@ -47,7 +47,10 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 color: primaryColor,
-                border: Border.all(color: Colors.black,width: 2.0,),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 2.0,
+                ),
               ),
             ),
             SizedBox(
@@ -56,7 +59,11 @@ class _HomePageState extends State<HomePage> {
 
             //Title Your Task
             Container(
-                margin: EdgeInsets.only(left: 18), child: Text("Your Task", style: H5,)),
+                margin: EdgeInsets.only(left: 18),
+                child: Text(
+                  "Your Task",
+                  style: H5,
+                )),
 
             //TODO section 2 make ListView summary at home page
             Container(
@@ -85,7 +92,8 @@ class _HomePageState extends State<HomePage> {
 
             //Title Content
             Container(
-                margin: EdgeInsets.only(left: 18), child: Text("Content", style: H5)),
+                margin: EdgeInsets.only(left: 18),
+                child: Text("Content", style: H5)),
             SizedBox(
               height: 8,
             ),
@@ -99,16 +107,27 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     children: [
                       //TODO use GestureDetector onTap for Navigation -> getWidgetButtonHomePage
-                      getWidgetButtonHomePage(
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.note_alt, size: 40.0, color: Colors.white,),
-                            SizedBox(height: 4,),
-                            Text('Priority Task', style: subtitle,)
-                          ],
-                        )
-                      ),
+                      GestureDetector(
+                          onTap: () {
+                            context.push('/priority');
+                          },
+                          child: getWidgetButtonHomePage(Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.note_alt,
+                                size: 40.0,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                'Priority Task',
+                                style: subtitle,
+                              )
+                            ],
+                          ))),
                       SizedBox(
                         width: 16,
                       ),
@@ -116,16 +135,23 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           context.push("/routine");
                         },
-                        child: getWidgetButtonHomePage(
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.update, size: 40.0, color: Colors.white,),
-                              SizedBox(height: 4,),
-                              Text('Routine', style: subtitle,)
-                            ],
-                          )
-                        ),
+                        child: getWidgetButtonHomePage(Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.update,
+                              size: 40.0,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              'Routine',
+                              style: subtitle,
+                            )
+                          ],
+                        )),
                       ),
                     ],
                   ),
@@ -134,29 +160,43 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Row(
                     children: [
-                      getWidgetButtonHomePage(
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.view_week, size: 40.0, color: Colors.white,),
-                            SizedBox(height: 4,),
-                            Text('Class Schedule', style: subtitle,)
-                          ],
-                        )
-                      ),
+                      getWidgetButtonHomePage(Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.view_week,
+                            size: 40.0,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            'Class Schedule',
+                            style: subtitle,
+                          )
+                        ],
+                      )),
                       SizedBox(
                         width: 16,
                       ),
-                      getWidgetButtonHomePage(
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.summarize, size: 40.0, color: Colors.white,),
-                            SizedBox(height: 4,),
-                            Text('Summary', style: subtitle,)
-                          ],
-                        )
-                      ),
+                      getWidgetButtonHomePage(Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.summarize,
+                            size: 40.0,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            'Summary',
+                            style: subtitle,
+                          )
+                        ],
+                      )),
                     ],
                   ),
                 ],

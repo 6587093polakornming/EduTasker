@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:edu_tasker_app/models/priority_model.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
 import 'package:edu_tasker_app/page/home_page.dart';
+import 'package:edu_tasker_app/page/priority_page.dart';
 import 'package:edu_tasker_app/page/routine_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,8 +22,13 @@ void main() async {
   await Hive.initFlutter();
 
   //register adapter
+  
+  Hive.registerAdapter(PriorityAdapter());
   Hive.registerAdapter(RoutineAdapter());
+  // Hive.deleteBoxFromDisk("EDUTASKER");
   var box = await Hive.openBox('EDUTASKER');
+
+
 
   runApp(const MyApp());
 }
@@ -45,6 +52,8 @@ class _MyAppState extends State<MyApp> {
         path: "/routine",
         builder: (context, state) => const RoutinePage(),
       ),
+      GoRoute(path: "/priority",
+      builder: (context, state) => const PriorityPage(),)
 
     ],
   );
