@@ -113,11 +113,7 @@ class _HomePageState extends State<HomePage> {
                         width: 16,
                       ),
                       GestureDetector(
-<<<<<<< Updated upstream
-                        onTap: (){
-=======
                         onTap: () {
->>>>>>> Stashed changes
                           context.push("/routine");
                         },
                         child: getWidgetButtonHomePage(
