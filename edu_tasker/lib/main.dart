@@ -1,7 +1,9 @@
 import 'dart:io';
 
-import 'package:edu_tasker_app/models/priority_model.dart';
+import 'package:edu_tasker_app/models/TimeOfDayAdapter.dart';
+import 'package:edu_tasker_app/models/class_model.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
+import 'package:edu_tasker_app/page/class_schedule_page.dart';
 import 'package:edu_tasker_app/page/home_page.dart';
 import 'package:edu_tasker_app/page/priority_page.dart';
 import 'package:edu_tasker_app/page/routine_page.dart';
@@ -13,19 +15,18 @@ import 'package:edu_tasker_app/page/sumary_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //for hive local storage
-  // final appDocumentDirectory = await getApplicationDocumentsDirectory();
-  // Hive.init(appDocumentDirectory.path);
-  // print(appDocumentDirectory.path);
-  // Get the application's document directory
-  var appDir = await getApplicationDocumentsDirectory();
 // Get the chosen sub-directory for Hive files
   await Hive.initFlutter();
 
   //register adapter
 
-  Hive.registerAdapter(PriorityAdapter());
+  //Hive.deleteBoxFromDisk("EDUTASKER");
+  //Hive.resetAdapters();
+  Hive.registerAdapter(TimeOfDayAdapter());
   Hive.registerAdapter(RoutineAdapter());
+  Hive.registerAdapter(ClassAdapter());
+  // Hive.registerAdapter(ClassAdapter()); // จาก g.dart
+  Hive.registerAdapter(PriorityAdapter());
   // Hive.deleteBoxFromDisk("EDUTASKER");
   var box = await Hive.openBox('EDUTASKER');
 
@@ -52,14 +53,16 @@ class _MyAppState extends State<MyApp> {
         builder: (context, state) => const RoutinePage(),
       ),
       GoRoute(
+        path: "/classSchedule",
+        builder: (context, state) => const ClassSchedulePage(),
+      ),
         path: "/priority",
         builder: (context, state) => const PriorityPage(),
       ),
-
       GoRoute(
         path: "/summary",
         builder: (context, state) => const SummaryPage(),
-      )
+      ),
     ],
   );
 
