@@ -46,6 +46,8 @@ class _ClassSchedulePageState extends State<ClassSchedulePage> {
       print('select and now day is : ${selectDayOfWeek}');
       classDB.loadClassData(selectDayOfWeek);
     }
+
+
   }
 
   String TimeOfDayToString(int hour, int minute) {
@@ -275,7 +277,7 @@ class _ClassSchedulePageState extends State<ClassSchedulePage> {
                         Expanded(
                             //classDB.classSchedules[index].startTime
                             child: Text(
-                                '${TimeOfDayToString(classDB.classSchedules[index].startTime.hour, classDB.classSchedules[index].startTime.minute)}: ${TimeOfDayToString(classDB.classSchedules[index].endTime.hour, classDB.classSchedules[index].endTime.minute)} ',
+                                '${TimeOfDayToString(classDB.classSchedules[index].startTime.hour, classDB.classSchedules[index].startTime.minute)}: ${TimeOfDayToString(classDB.classSchedules[index].endTime.hour, classDB.classSchedules[index].endTime.minute)}',
                                 style: subtitle)),
                       ],
                     ),

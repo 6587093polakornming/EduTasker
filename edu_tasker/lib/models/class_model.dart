@@ -38,6 +38,7 @@ class ClassDatabase {
 
     classSchedules.add(ClassModel(userId: "test", className: "Example", check: false, startTime: TimeOfDay(hour: 12, minute: 00), endTime: TimeOfDay(hour: 17, minute: 00), dayOfWeek: 2));
     classSchedules.add(ClassModel(userId: "test", className: "Example", check: false, startTime: TimeOfDay(hour: 12, minute: 30), endTime: TimeOfDay(hour: 13, minute: 30), dayOfWeek: 2));
+    classSchedules.add(ClassModel(userId: "test", className: "Example", check: false, startTime: TimeOfDay(hour: 12, minute: 30), endTime: TimeOfDay(hour: 13, minute: 30), dayOfWeek: 2));
     updateClassDataBase(2);
     classSchedules=[];
   }
