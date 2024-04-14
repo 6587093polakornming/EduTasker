@@ -1,45 +1,41 @@
-import 'package:edu_tasker_app/page/routine_page.dart';
+import 'package:go_router/go_router.dart';
+
+import '../models/priority_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-
-class Task {
-  String priority = "";
-  DateTime? date;
-  String taskname = "";
-  String description = "";
-  bool more_detail = false;
-
-  Task(
-      {required this.priority,
-      required this.date,
-      required this.taskname,
-      required this.description});
-}
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main(List<String> args) {
   runApp(MaterialApp(
-      debugShowCheckedModeBanner: false, title: 'Flutter App', home: MyApp()));
+      debugShowCheckedModeBanner: false, title: 'Flutter App', home: PriorityPage()));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class PriorityPage extends StatefulWidget {
+  const PriorityPage({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<PriorityPage> createState() => _PriorityPageState();
 }
 
-class _MyAppState extends State<MyApp> {
-  // Global Var in _Myappstate
-  List<Task> Task_List = [];
+class _PriorityPageState extends State<PriorityPage> {
+  // Global Var in _PriorityPagestate
+  final _EDUTASKER = Hive.box('EDUTASKER');
+  PriorityDatabase priorityDB = PriorityDatabase();
+
 
   // init
   @override
   void initState() {
     // TODO: implement initState
+    
+    if(_EDUTASKER.get('PRIORITY') == null) {
+      priorityDB.createInitialRoutineData();
+      priorityDB.updatePriorityDatabase();
+    }else {
+      priorityDB.loadPriorityData();
+    }
     super.initState();
-    // Get data from database
-    // Task_List =  ...;
   }
 
   @override
@@ -75,7 +71,7 @@ class _MyAppState extends State<MyApp> {
       title: SearchBox_(),
       leading: IconButton(
         icon: Icon(Icons.arrow_back, size: 48, color: Colors.white),
-        onPressed: () => {},
+        onPressed: () {Navigator.pop(context);},
       ),
       backgroundColor: Color.fromARGB(255, 24, 28, 75),
     );
@@ -99,7 +95,7 @@ class _MyAppState extends State<MyApp> {
 
   FloatingActionButton getFloatingButton() {
     return FloatingActionButton(
-        onPressed: () => {showAddRoutineDialog(context)},
+        onPressed: () => {showAddTaskDialog(context)},
         child: Icon(
           Icons.note_add,
           color: Colors.white,
@@ -112,7 +108,7 @@ class _MyAppState extends State<MyApp> {
     return Container(
       child: ListView.separated(
         padding: const EdgeInsets.all(8),
-        itemCount: Task_List.length,
+        itemCount: priorityDB.priority.length,
         itemBuilder: (context, index) {
           return ListTile(
             shape:
@@ -120,14 +116,14 @@ class _MyAppState extends State<MyApp> {
             textColor: Colors.white,
             tileColor: Color.fromARGB(255, 24, 28, 75),
             title: Text(
-              Task_List[index].taskname,
+              priorityDB.priority[index].taskname,
             ),
-            subtitle: Task_List[index].more_detail == false
-                ? Text(Task_List[index].priority)
+            subtitle: priorityDB.priority[index].more_detail == false
+                ? Text(priorityDB.priority[index].priority)
                 : Column(
                     children: [
-                      Text(Task_List[index].priority),
-                      Text(Task_List[index].description)
+                      Text(priorityDB.priority[index].priority),
+                      Text(priorityDB.priority[index].description)
                     ],
                   ),
             onTap: () => {tapShowDetail(index)},
@@ -150,27 +146,29 @@ class _MyAppState extends State<MyApp> {
   void add_Task(
       String priority, DateTime date, String taskname, String description) {
     setState(() {
-      Task_List.add(Task(
+      priorityDB.priority.add(PriorityModel(
           date: date,
           priority: priority,
           taskname: taskname,
           description: description));
     });
+    priorityDB.updatePriorityDatabase();
   }
 
   void remove_Task(index) {
     setState(() {
-      Task_List.removeAt(index);
+      priorityDB.priority.removeAt(index);
     });
+    priorityDB.updatePriorityDatabase();
   }
 
   void tapShowDetail(index) {
     setState(() {
-      Task_List[index].more_detail = !Task_List[index].more_detail;
+      priorityDB.priority[index].more_detail = !priorityDB.priority[index].more_detail;
     });
   }
 
-  Future<void> showAddRoutineDialog(BuildContext context) async {
+  Future<void> showAddTaskDialog(BuildContext context) async {
     String taskname = '';
     String priority = "Imporntant & urgent";
     DateTime date = DateTime.now();

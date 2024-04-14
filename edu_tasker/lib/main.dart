@@ -5,27 +5,29 @@ import 'package:edu_tasker_app/models/class_model.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
 import 'package:edu_tasker_app/page/class_schedule_page.dart';
 import 'package:edu_tasker_app/page/home_page.dart';
+import 'package:edu_tasker_app/page/priority_page.dart';
 import 'package:edu_tasker_app/page/routine_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:edu_tasker_app/page/sumary_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //for hive local storage
-    
-  var appDir = await getApplicationDocumentsDirectory(); 
 // Get the chosen sub-directory for Hive files
   await Hive.initFlutter();
 
   //register adapter
+
   //Hive.deleteBoxFromDisk("EDUTASKER");
   //Hive.resetAdapters();
   Hive.registerAdapter(TimeOfDayAdapter());
   Hive.registerAdapter(RoutineAdapter());
   Hive.registerAdapter(ClassAdapter());
   // Hive.registerAdapter(ClassAdapter()); // จาก g.dart
+  Hive.registerAdapter(PriorityAdapter());
+  // Hive.deleteBoxFromDisk("EDUTASKER");
   var box = await Hive.openBox('EDUTASKER');
 
   runApp(const MyApp());
@@ -54,9 +56,15 @@ class _MyAppState extends State<MyApp> {
         path: "/classSchedule",
         builder: (context, state) => const ClassSchedulePage(),
       ),
+        path: "/priority",
+        builder: (context, state) => const PriorityPage(),
+      ),
+      GoRoute(
+        path: "/summary",
+        builder: (context, state) => const SummaryPage(),
+      ),
     ],
   );
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,4 +79,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
