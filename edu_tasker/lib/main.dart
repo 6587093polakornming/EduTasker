@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:edu_tasker_app/models/TimeOfDayAdapter.dart';
 import 'package:edu_tasker_app/models/class_model.dart';
+import 'package:edu_tasker_app/models/priority_model.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
 import 'package:edu_tasker_app/page/class_schedule_page.dart';
 import 'package:edu_tasker_app/page/home_page.dart';
@@ -56,6 +56,7 @@ class _MyAppState extends State<MyApp> {
         path: "/classSchedule",
         builder: (context, state) => const ClassSchedulePage(),
       ),
+      GoRoute(
         path: "/priority",
         builder: (context, state) => const PriorityPage(),
       ),
