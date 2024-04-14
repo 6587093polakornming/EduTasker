@@ -5,6 +5,7 @@ import 'package:edu_tasker_app/constants/materialDesign.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:edu_tasker_app/models/priority_model.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
+import 'package:edu_tasker_app/models/class_model.dart';
 
 void main(List<String> args) {
   runApp(MaterialApp(
@@ -27,6 +28,7 @@ class _SummaryPageState extends State<SummaryPage> {
   final _EDUTASKER = Hive.box('EDUTASKER');
   PriorityDatabase priorityDB = PriorityDatabase();
   RoutineDatabase routineDB = RoutineDatabase();
+  ClassDatabase classDB = ClassDatabase();
 
   // init
   @override
@@ -76,7 +78,11 @@ class _SummaryPageState extends State<SummaryPage> {
             icon: Icon(Icons.settings, color: Colors.white, size: 40.0),
             onPressed: () {})
       ],
-      title: Center(child:  Text("Summary", style: H5,)),
+      title: Center(
+          child: Text(
+        "Summary",
+        style: H5,
+      )),
       leading: IconButton(
         icon: Icon(Icons.arrow_back, size: 48, color: Colors.white),
         onPressed: () => {Navigator.pop(context)},
@@ -93,7 +99,8 @@ class _SummaryPageState extends State<SummaryPage> {
         ),
         menu(),
         display_piority(),
-        display_routine()
+        display_routine(),
+        display_classSchedule(),
       ],
     );
   }
@@ -273,7 +280,112 @@ class _SummaryPageState extends State<SummaryPage> {
                           rountine_list[index].name,
                           style: subtitle,
                         ),
-                      trailing: Text('${rountine_list[index].count} ${rountine_list[index].unit}', style: subtitle,) ,))))
+                        trailing: Text(
+                          '${rountine_list[index].count} ${rountine_list[index].unit}',
+                          style: subtitle,
+                        ),
+                      ))))
+    ]);
+  }
+
+  List<dynamic> getClassScheduleBy(int dayOfWeek) {
+    if (_EDUTASKER.get(ClassDatabase.mappingIntegerToDatabase(dayOfWeek)) ==
+        null) {
+      classDB.createInitialClassData();
+      classDB.loadClassData(dayOfWeek);
+    } else {
+      classDB.loadClassData(dayOfWeek);
+    }
+    return classDB.classSchedules;
+  }
+
+  Widget display_classSchedule() {
+    List<dynamic> day = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ];
+
+    List<Color> color = [
+      Colors.yellowAccent,
+      Colors.pinkAccent,
+      Colors.greenAccent,
+      Colors.orangeAccent,
+      Colors.blueAccent,
+      Colors.pinkAccent,
+      Colors.redAccent
+    ];
+
+    double opacity = 0.6;
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Container(
+          margin: const EdgeInsets.only(left: 18),
+          child: const Text(
+            "Class Schedule",
+            style: H5,
+          )),
+      Center(
+          child: Container(
+              width: 300,
+              height: 2200,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: primaryColor.withOpacity(0.8)),
+              child: ListView.builder(
+                  itemCount: 7,
+                  itemBuilder: (context, index_day) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            day[index_day],
+                            style: subtitle,
+                          ),
+                          Center(
+                              child: Container(
+                                  width: 280,
+                                  height: 280,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      color: color[index_day].withOpacity(opacity)),
+                                  child: ListView.builder(
+                                    itemCount:
+                                        getClassScheduleBy(index_day+1).length,
+                                    itemBuilder: (context, index_list) {
+                                      List<dynamic> listOfSingleDay =
+                                          getClassScheduleBy(index_day+1);
+                                      return Container(
+                                        child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: 5, top: 5),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  listOfSingleDay[index_list]
+                                                      .className,
+                                                  style: subtitle,
+                                                ),
+                                                Text(
+                                                  '${listOfSingleDay[index_list].startTime} - ${listOfSingleDay[index_list].endTime}',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 10),
+                                                )
+                                              ],
+                                            )),
+                                      );
+                                    },
+                                  ))),
+                          SizedBox(
+                            height: 10,
+                          )
+                        ],
+                      ))))
     ]);
   }
 }
