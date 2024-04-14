@@ -5,8 +5,10 @@ import 'package:edu_tasker_app/models/priority_model.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
 import 'package:edu_tasker_app/page/class_schedule_page.dart';
 import 'package:edu_tasker_app/page/home_page.dart';
+import 'package:edu_tasker_app/page/login_page.dart';
 import 'package:edu_tasker_app/page/priority_page.dart';
 import 'package:edu_tasker_app/page/routine_page.dart';
+import 'package:edu_tasker_app/page/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -46,6 +48,10 @@ class _MyAppState extends State<MyApp> {
       //TODO #1 Start ฺPage
       GoRoute(
         path: "/",
+        builder: (context, state) => const LoginPage(), //LoginPage()
+      ),
+      GoRoute(
+        path: "/home",
         builder: (context, state) => const HomePage(), //HomePage()
       ),
       GoRoute(
@@ -63,6 +69,10 @@ class _MyAppState extends State<MyApp> {
       GoRoute(
         path: "/summary",
         builder: (context, state) => const SummaryPage(),
+      ),
+      GoRoute(
+        path: "/signup",
+        builder: (context, state) => const SignUpPage(),
       ),
     ],
   );
