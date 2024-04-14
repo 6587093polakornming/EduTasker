@@ -330,12 +330,13 @@ class _SummaryPageState extends State<SummaryPage> {
           )),
       Center(
           child: Container(
-              width: 300,
-              height: 2200,
+              width: 350,
+              height: 350,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                   color: primaryColor.withOpacity(0.8)),
               child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
                   itemCount: 7,
                   itemBuilder: (context, index_day) => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
