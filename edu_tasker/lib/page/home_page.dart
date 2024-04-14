@@ -113,11 +113,7 @@ class _HomePageState extends State<HomePage> {
                         width: 16,
                       ),
                       GestureDetector(
-<<<<<<< Updated upstream
-                        onTap: (){
-=======
                         onTap: () {
->>>>>>> Stashed changes
                           context.push("/routine");
                         },
                         child: getWidgetButtonHomePage(
@@ -138,15 +134,18 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Row(
                     children: [
-                      getWidgetButtonHomePage(
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.view_week, size: 40.0, color: Colors.white,),
-                            SizedBox(height: 4,),
-                            Text('Class Schedule', style: subtitle,)
-                          ],
-                        )
+                      GestureDetector(
+                        onTap: () {context.push("/classSchedule");},
+                        child: getWidgetButtonHomePage(
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.view_week, size: 40.0, color: Colors.white,),
+                              SizedBox(height: 4,),
+                              Text('Class Schedule', style: subtitle,)
+                            ],
+                          )
+                        ),
                       ),
                       SizedBox(
                         width: 16,

@@ -46,8 +46,6 @@ class _RoutinePageState extends State<RoutinePage> {
       routineDB.loadRoutineData();
       //print("${routineDB.routines}");
     }
-
-    super.initState();
   }
 
 
@@ -194,7 +192,6 @@ class _RoutinePageState extends State<RoutinePage> {
           children: [
             // Text("This is home page",style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white)),
             SearchBox(),
-
             // routine section
             SizedBox(height: 32),
             Container(
