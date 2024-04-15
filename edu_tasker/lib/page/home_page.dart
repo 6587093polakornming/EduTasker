@@ -2,6 +2,7 @@ import 'package:edu_tasker_app/constants/materialDesign.dart';
 import 'package:edu_tasker_app/models/class_model.dart';
 import 'package:edu_tasker_app/models/priority_model.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
+import 'package:edu_tasker_app/widgets/weatherWidget.dart';
 import 'package:edu_tasker_app/widgets/widgetHomePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,6 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
-
-// void main(List<String> args) {
-//   runApp(const HomePage());
-// }
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -33,45 +30,34 @@ class _HomePageState extends State<HomePage> {
   RoutineDatabase routineDB = RoutineDatabase();
   ClassDatabase classDB = ClassDatabase();
 
-  String getStringDate(DateTime datenow){
+  String getStringDate(DateTime datenow) {
     return DateFormat('yyyy-MM-dd – kk:mm').format(datenow);
   }
 
-  String? getNameUser(){
+  String? getNameUser() {
     //print("getNameUser()");
     setState(() {
       nameUser = _EDUTASKER.get("NAMEUSER");
     });
     return nameUser;
   }
+  //TODO WEATHER API REPORT
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     print("init stage home page");
-    if(_EDUTASKER.get('NAMEUSER')==null){
-      _EDUTASKER.put('NAMEUSER', "NEW USER");
-      nameUser = _EDUTASKER.get('NAMEUSER');
-    }else{
-      nameUser = _EDUTASKER.get('NAMEUSER');
-    }
+    settingNameUser();
 
-    if (_EDUTASKER.get('PRIORITY') == null) {
-      priorityDB.createInitialRoutineData();
-      priorityDB.updatePriorityDatabase();
-    } else {
-      priorityDB.loadPriorityData();
-    }
+    settingDataPriority();
 
-    if (_EDUTASKER.get("ROUTINE") == null) {
-      routineDB.createInitialRoutineData();
-      routineDB.updateRoutineDataBase();
-    } else {
-      routineDB.loadRoutineData();
-    }
-    super.initState();
+    settingRoutineData();
 
+    settingClassData();
+  }
+
+  void settingClassData() {
     if (_EDUTASKER.get(ClassDatabase.mappingIntegerToDatabase(nowDayOfWeek)) ==
         null) {
       print('null create and now day is : ${nowDayOfWeek}');
@@ -84,10 +70,36 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void settingRoutineData() {
+    if (_EDUTASKER.get("ROUTINE") == null) {
+      routineDB.createInitialRoutineData();
+      routineDB.updateRoutineDataBase();
+    } else {
+      routineDB.loadRoutineData();
+    }
+    super.initState();
+  }
+
+  void settingDataPriority() {
+    if (_EDUTASKER.get('PRIORITY') == null) {
+      priorityDB.createInitialRoutineData();
+      priorityDB.updatePriorityDatabase();
+    } else {
+      priorityDB.loadPriorityData();
+    }
+  }
+
+  void settingNameUser() {
+    if (_EDUTASKER.get('NAMEUSER') == null) {
+      _EDUTASKER.put('NAMEUSER', "NEW USER");
+      nameUser = _EDUTASKER.get('NAMEUSER');
+    } else {
+      nameUser = _EDUTASKER.get('NAMEUSER');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    print("BUILD HOME PAGE");
-
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -120,6 +132,8 @@ class _HomePageState extends State<HomePage> {
                   width: 2.0,
                 ),
               ),
+              //TODO WEATHER API REPORT
+              child: buildWeatherReport(),
             ),
             SizedBox(
               height: 8,
@@ -142,72 +156,85 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(8),
                 children: <Widget>[
                   //Priority
-                  getWidgetListViewHomePage(
-                    Column(
-                      children: [
-                        Text("Priority", style: subtitle,),
-                        Expanded(
-                          child: ListView.builder(
+                  getWidgetListViewHomePage(Column(
+                    children: [
+                      Text(
+                        "Priority",
+                        style: subtitle,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
                           itemCount: priorityDB.priority.length < 3
                               ? priorityDB.priority.length
                               : 3,
                           itemBuilder: (context, index) => ListTile(
                             title: Text(priorityDB.priority[index].taskname,
                                 style: subtitle),
-                            subtitle: Text('${getStringDate(priorityDB.priority[index].date)}',
-                              style: TextStyle(color: Colors.white, fontSize: 12),),
+                            subtitle: Text(
+                              '${getStringDate(priorityDB.priority[index].date)}',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
                           ),
-                                            ),
                         ),
-                      ],
-                    )),
+                      ),
+                    ],
+                  )),
                   SizedBox(
                     width: 16,
                   ),
                   //
-                  getWidgetListViewHomePage(
-                    Column(
-                      children: [
-                        Text("Class Schedule", style: subtitle,),
-                        Expanded(
-                          child: ListView.builder(
+                  getWidgetListViewHomePage(Column(
+                    children: [
+                      Text(
+                        "Class Schedule",
+                        style: subtitle,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
                           itemCount: classDB.classSchedules.length < 3
                               ? classDB.classSchedules.length
                               : 3,
                           itemBuilder: (context, index) => ListTile(
                             title: Text(classDB.classSchedules[index].className,
                                 style: subtitle),
-                            subtitle: Text('${TimeOfDayToString(classDB.classSchedules[index].startTime.hour, classDB.classSchedules[index].startTime.minute)}: ${TimeOfDayToString(classDB.classSchedules[index].endTime.hour, classDB.classSchedules[index].endTime.minute)}', 
-                              style: TextStyle(color: Colors.white, fontSize: 12),),
+                            subtitle: Text(
+                              '${TimeOfDayToString(classDB.classSchedules[index].startTime.hour, classDB.classSchedules[index].startTime.minute)}: ${TimeOfDayToString(classDB.classSchedules[index].endTime.hour, classDB.classSchedules[index].endTime.minute)}',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
                           ),
-                                            ),
                         ),
-                      ],
-                    )
-                  ),
+                      ),
+                    ],
+                  )),
                   SizedBox(
                     width: 16,
                   ),
-                  getWidgetListViewHomePage(
-                    Column(
-                      children: [
-                        Text("Routine", style: subtitle,),
-                        Expanded(
-                          child: ListView.builder(
+                  getWidgetListViewHomePage(Column(
+                    children: [
+                      Text(
+                        "Routine",
+                        style: subtitle,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
                           itemCount: routineDB.routines.length < 3
                               ? routineDB.routines.length
                               : 3,
                           itemBuilder: (context, index) => ListTile(
                             title: Text(routineDB.routines[index].name,
                                 style: subtitle),
-                            subtitle: Text('${routineDB.routines[index].count}', 
-                              style: TextStyle(color: Colors.white, fontSize: 12),),
+                            subtitle: Text(
+                              '${routineDB.routines[index].count}',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
                           ),
-                                            ),
                         ),
-                      ],
-                    )
-                  ),
+                      ),
+                    ],
+                  )),
                   SizedBox(
                     width: 16,
                   ),
