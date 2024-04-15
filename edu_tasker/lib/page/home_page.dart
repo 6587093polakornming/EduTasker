@@ -25,7 +25,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _EDUTASKER = Hive.box('EDUTASKER');
   int nowDayOfWeek = DateTime.now().weekday;
-  
+  String? nameUser;
   //TODO DevTool
   //int nowDayOfWeek = 2;
 
@@ -37,10 +37,25 @@ class _HomePageState extends State<HomePage> {
     return DateFormat('yyyy-MM-dd – kk:mm').format(datenow);
   }
 
+  String? getNameUser(){
+    //print("getNameUser()");
+    setState(() {
+      nameUser = _EDUTASKER.get("NAMEUSER");
+    });
+    return nameUser;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("init stage home page");
+    if(_EDUTASKER.get('NAMEUSER')==null){
+      _EDUTASKER.put('NAMEUSER', "NEW USER");
+      nameUser = _EDUTASKER.get('NAMEUSER');
+    }else{
+      nameUser = _EDUTASKER.get('NAMEUSER');
+    }
 
     if (_EDUTASKER.get('PRIORITY') == null) {
       priorityDB.createInitialRoutineData();
@@ -71,6 +86,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("BUILD HOME PAGE");
+
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -331,7 +348,9 @@ class _HomePageState extends State<HomePage> {
       actions: [
         IconButton(
             icon: Icon(Icons.settings, color: Colors.white, size: 40.0),
-            onPressed: () {})
+            onPressed: () {
+              context.push("/setting");
+            })
       ],
       centerTitle: true,
       title: Container(
@@ -344,7 +363,7 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Center(
           child: Text(
-            "Name",
+            '${getNameUser()}',
             style: TextStyle(color: Colors.black),
           ),
         ),

@@ -8,6 +8,7 @@ import 'package:edu_tasker_app/page/home_page.dart';
 import 'package:edu_tasker_app/page/login_page.dart';
 import 'package:edu_tasker_app/page/priority_page.dart';
 import 'package:edu_tasker_app/page/routine_page.dart';
+import 'package:edu_tasker_app/page/setting_page.dart';
 import 'package:edu_tasker_app/page/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -48,7 +49,7 @@ class _MyAppState extends State<MyApp> {
       //TODO #1 Start ฺPage
       GoRoute(
         path: "/",
-        builder: (context, state) => const LoginPage(), //LoginPage()
+        builder: (context, state) => const HomePage(), //LoginPage()
       ),
       GoRoute(
         path: "/home",
@@ -73,6 +74,10 @@ class _MyAppState extends State<MyApp> {
       GoRoute(
         path: "/signup",
         builder: (context, state) => const SignUpPage(),
+      ),
+      GoRoute(
+        path: "/setting",
+        builder: (context, state) => const SettingPage(),
       ),
     ],
   );
