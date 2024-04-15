@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:edu_tasker_app/constants/materialDesign.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:edu_tasker_app/models/priority_model.dart';
 import 'package:edu_tasker_app/models/routine_model.dart';
@@ -74,7 +75,9 @@ class _SummaryPageState extends State<SummaryPage> {
       actions: [
         IconButton(
             icon: Icon(Icons.settings, color: Colors.white, size: 40.0),
-            onPressed: () {})
+            onPressed: () {
+              context.push("/setting");
+            })
       ],
       title: Center(child:  Text("Summary", style: H5,)),
       leading: IconButton(

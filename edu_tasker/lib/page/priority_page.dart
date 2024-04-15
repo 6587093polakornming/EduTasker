@@ -66,7 +66,9 @@ class _PriorityPageState extends State<PriorityPage> {
       actions: [
         IconButton(
             icon: Icon(Icons.settings, color: Colors.white, size: 40.0),
-            onPressed: () {})
+            onPressed: () {
+              context.push("/setting");
+            })
       ],
       title: SearchBox_(),
       leading: IconButton(

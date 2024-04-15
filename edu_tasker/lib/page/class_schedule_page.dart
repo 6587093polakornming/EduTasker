@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ClassSchedulePage extends StatefulWidget {
@@ -395,7 +396,9 @@ class _ClassSchedulePageState extends State<ClassSchedulePage> {
       actions: [
         IconButton(
             icon: Icon(Icons.settings, color: Colors.white, size: 40.0),
-            onPressed: () {}),
+            onPressed: () {
+              context.push("/setting");
+            }),
       ],
       centerTitle: true,
       title: Center(
