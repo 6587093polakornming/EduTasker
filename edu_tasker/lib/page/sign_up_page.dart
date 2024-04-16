@@ -13,6 +13,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _usernameTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
+  TextEditingController _confirmPasswordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
 
   @override
@@ -75,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   "Username",
                   style: subtitle,
                 ),
-                // TextField Receive Email
+                // TextField Receive username
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextField(
@@ -104,6 +105,25 @@ class _SignUpPageState extends State<SignUpPage> {
                       fillColor: Colors.white,
                       border: OutlineInputBorder(),
                       hintText: 'Password',
+                      hintStyle:
+                          TextStyle(color: Colors.grey), // ตั้งค่าสีของ hint
+                    ),
+                  ),
+                ),
+                Text(
+                  "Confirm Password",
+                  style: subtitle,
+                ),
+                //TextField Receive Password
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextField(
+                    controller: _confirmPasswordTextController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(),
+                      hintText: 'Confirm Password',
                       hintStyle:
                           TextStyle(color: Colors.grey), // ตั้งค่าสีของ hint
                     ),
