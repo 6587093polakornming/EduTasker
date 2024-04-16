@@ -15,11 +15,15 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:edu_tasker_app/page/sumary_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:edu_tasker_app/firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 // Get the chosen sub-directory for Hive files
   await Hive.initFlutter();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   //register adapter
 

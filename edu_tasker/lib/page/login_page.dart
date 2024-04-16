@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:edu_tasker_app/constants/materialDesign.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -114,7 +115,25 @@ class _LoginPageState extends State<LoginPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
+                          await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailTextController.text, password: _passwordTextController.text).then((value) => 
+                          context.go('/home')).onError((error, stackTrace) => showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Faild'),
+                                  content: const Text("Login failed"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('OK'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            ));
                           //TODO login
                         },
                       ),

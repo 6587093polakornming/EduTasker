@@ -11,6 +11,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -46,6 +48,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
+    // Update usename
+    // final doc = FirebaseFirestore.instance.collection("username").snapshots();
+    // _EDUTASKER.put("NAMEUSER", doc.da);
+    
     super.initState();
     print("init stage home page");
     settingNameUser();

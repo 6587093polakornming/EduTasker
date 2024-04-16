@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
@@ -190,6 +192,24 @@ class _SettingPageState extends State<SettingPage> {
     return GestureDetector(
                   onTap:() {
                     //CODE HERE 
+                    FirebaseAuth.instance.signOut().then((value) {
+                      context.go('/');}).onError((error, stackTrace) =>  showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Error'),
+                                  content: const Text("Something wrong"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('OK'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            ));
                   },
                   child: Container(
                     padding: EdgeInsets.all(16),

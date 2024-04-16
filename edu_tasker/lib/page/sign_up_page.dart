@@ -1,7 +1,10 @@
 import 'dart:ffi';
 
 import 'package:edu_tasker_app/constants/materialDesign.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -13,7 +16,8 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _usernameTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _confirmPasswordTextController = TextEditingController();
+  TextEditingController _confirmPasswordTextController =
+      TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
 
   @override
@@ -146,9 +150,58 @@ class _SignUpPageState extends State<SignUpPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
+                          if (_passwordTextController.text ==
+                              _confirmPasswordTextController.text) {
+                            await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                    email: _emailTextController.text,
+                                    password: _passwordTextController.text)
+                                .then((value) {
+                                  // //
+                                  // final doc = FirebaseFirestore.instance.collection("username").doc(FirebaseAuth.instance.currentUser?.uid);
+                                  // final json = {"name":_usernameTextController.text};
+                                  // doc.set(json);
+                                  // //
+                                  context.go('/');
+                                })
+                                .onError((error, stackTrace) {showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Error'),
+                                  content: const Text("Has an error"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('OK'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                                );});
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Error'),
+                                  content: const Text("confirm password is not correct"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('OK'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
                           //TODO sign up
-
                         },
                       ),
                     ),

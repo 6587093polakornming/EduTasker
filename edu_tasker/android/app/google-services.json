@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "47941036680",
+    "project_id": "edutasker-login",
+    "storage_bucket": "edutasker-login.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47941036680:android:5a3178bf817868397c8d3d",
+        "android_client_info": {
+          "package_name": "com.example.edu_takser"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAmQQDI7rYXMWF6-G3W7P37UwTIS-flQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
