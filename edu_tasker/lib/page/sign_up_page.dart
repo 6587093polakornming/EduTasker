@@ -104,6 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextField(
                     controller: _passwordTextController,
+                    obscureText: true,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -123,6 +124,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextField(
                     controller: _confirmPasswordTextController,
+                    obscureText: true,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -158,11 +160,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                     email: _emailTextController.text,
                                     password: _passwordTextController.text)
                                 .then((value) {
-                                  // //
-                                  // final doc = FirebaseFirestore.instance.collection("username").doc(FirebaseAuth.instance.currentUser?.uid);
-                                  // final json = {"name":_usernameTextController.text};
-                                  // doc.set(json);
-                                  // //
                                   context.go('/');
                                 })
                                 .onError((error, stackTrace) {showDialog(
