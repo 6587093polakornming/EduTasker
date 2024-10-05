@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherAPI {
-  static const String _apiKey = '7118917631a64b88a904c6313a69bfb5';
+  static const String _apiKey = '<api key>';
   static const String _city = 'Bangkok';
 
   static String get apiUrl =>
